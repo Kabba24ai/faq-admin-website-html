@@ -288,11 +288,20 @@ export default function FAQPage() {
                     <div className="flex items-center space-x-3">
                       <div className="w-8 h-8 rounded flex items-center justify-center overflow-hidden">
                         {category.icon ? (
-                          <img 
-                            src={category.icon} 
-                            alt={`${category.name} icon`} 
-                            className="w-full h-full object-cover"
-                          />
+                          // Check if icon is a URL (starts with http, https, data:, or /)
+                          category.icon.startsWith('http') || 
+                          category.icon.startsWith('https') || 
+                          category.icon.startsWith('data:') || 
+                          category.icon.startsWith('/') ? (
+                            <img 
+                              src={category.icon} 
+                              alt={`${category.name} icon`} 
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            // Render as emoji or text
+                            <span className="text-2xl">{category.icon}</span>
+                          )
                         ) : (
                           <span className="text-2xl">📁</span>
                         )}
