@@ -819,8 +819,6 @@ export default function FAQAdminPanel() {
                                     onChange={(e) => handleIconUpload(e, true)}
                                     className="hidden"
                                   />
-                                </label>
-                                <span className="text-xs text-gray-400">32x32px, PNG/JPG</span>
                                 <span className="text-xs text-gray-400">32x32px, WebP/PNG/JPG</span>
                               </div>
                             )}
