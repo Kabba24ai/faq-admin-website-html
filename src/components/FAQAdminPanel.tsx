@@ -560,12 +560,11 @@ export default function FAQAdminPanel() {
                   </div>
                   <div className="flex justify-end space-x-3 mt-6">
                     <button
-                      onClick={() => setShowAddFaq(false)}
-                      className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
                       onClick={() => {
                         setShowAddFaq(false);
                         setRelatedQuestionsFilter('');
                       }}
+                      className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
                     >
                       Cancel
                     </button>
@@ -1019,81 +1018,54 @@ export default function FAQAdminPanel() {
         {activeTab === 'analytics' && (
           <div>
             <div className="flex justify-between items-center mb-6">
-
-        {activeTab === 'settings' && (
-          <>
-            <div className="space-y-6">
-              <div>
-                <h2 className="text-xl font-semibold text-gray-900 mb-6">Settings</h2>
-                
-                <div className="bg-white rounded-lg shadow p-6">
-                  <h3 className="text-lg font-medium text-gray-900 mb-4">FAQ Display Settings</h3>
-                  
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <label className="text-sm font-medium text-gray-700">Show search box</label>
-                        <p className="text-sm text-gray-500">Allow users to search through FAQs</p>
-                      </div>
-                      <input
-                        type="checkbox"
-                        checked={settings.showSearchBox}
-                        onChange={(e) => setSettings(prev => ({ ...prev, showSearchBox: e.target.checked }))}
-                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                      />
-                    </div>
-                    
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <label className="text-sm font-medium text-gray-700">Auto-expand first category</label>
-                        <p className="text-sm text-gray-500">Automatically expand the first FAQ category</p>
-                      </div>
-                      <input
-                        type="checkbox"
-                        checked={settings.autoExpandFirstCategory}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            setSettings(prev => ({ 
-                              ...prev, 
-                              autoExpandFirstCategory: true,
-                              autoExpandAllCategories: false
-                            }));
-                          } else {
-                            setSettings(prev => ({ ...prev, autoExpandFirstCategory: false }));
-                          }
-                        }}
-                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                      />
-                    </div>
-                    
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <label className="text-sm font-medium text-gray-700">Auto-expand all categories</label>
-                        <p className="text-sm text-gray-500">Automatically expand all FAQ categories</p>
-                      </div>
-                      <input
-                        type="checkbox"
-                        checked={settings.autoExpandAllCategories}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            setSettings(prev => ({ 
-                              ...prev, 
-                              autoExpandAllCategories: true,
-                              autoExpandFirstCategory: false
-                            }));
-                          } else {
-                            setSettings(prev => ({ ...prev, autoExpandAllCategories: false }));
-                          }
-                        }}
-                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                      />
-                    </div>
-                  </div>
-                </div>
+              <h2 className="text-xl font-semibold text-gray-900">Analytics Dashboard</h2>
+              <div className="flex items-center space-x-2">
+                <BarChart3 className="w-5 h-5 text-gray-400" />
+                <span className="text-sm text-gray-500">Real-time insights</span>
               </div>
             </div>
-          </>
+            <AnalyticsDashboard faqs={faqs} categories={categories} />
+          </div>
         )}
+
+        {activeTab === 'settings' && (
+          <div className="space-y-6">
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">Settings</h2>
+            </div>
+
+            <div className="bg-white rounded-lg shadow p-6">
+              <h3 className="text-lg font-medium text-gray-900 mb-4">FAQ Display Settings</h3>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <label className="text-sm font-medium text-gray-900">Show search box</label>
+                    <p className="text-sm text-gray-500">Allow users to search through FAQs</p>
+                  </div>
+                  <input
+                    type="checkbox"
+                    checked={settings.showSearchBox}
+                    onChange={(e) => setSettings(prev => ({ ...prev, showSearchBox: e.target.checked }))}
+                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                  />
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div>
+                    <label className="text-sm font-medium text-gray-900">Auto-expand first category</label>
+                    <p className="text-sm text-gray-500">Automatically expand the first FAQ category</p>
+                  </div>
+                  <input
+                    type="checkbox"
+                    checked={settings.autoExpandFirstCategory}
+                    onChange={(e) => setSettings(prev => ({ 
+                      ...prev, 
+                      autoExpandFirstCategory: e.target.checked,
+                      autoExpandAllCategories: e.target.checked ? false : prev.autoExpandAllCategories
+                    }))}
+                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                  />
+                </div>
 
                 <div className="flex items-center justify-between">
                   <div>
