@@ -858,7 +858,7 @@ export default function FAQAdminPanel() {
                               <p className="text-sm text-gray-600 mt-1">{category.description}</p>
                               <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 mt-2">
                                 {getCategoryFaqs(category.id).length} FAQs
-                              </span>
+                              <span className="text-xs text-gray-400">32x32px, WebP/PNG/JPG</span>
                             </div>
                           </div>
                           <div className="flex items-center space-x-2">
