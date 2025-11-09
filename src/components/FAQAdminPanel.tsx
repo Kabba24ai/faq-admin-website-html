@@ -54,7 +54,6 @@ export default function FAQAdminPanel() {
   const [editingFaq, setEditingFaq] = useState(null);
   const [editingCategory, setEditingCategory] = useState(null);
   const [newFaq, setNewFaq] = useState({ categoryId: '', question: '', answer: '', isActive: true });
-  const [newCategory, setNewCategory] = useState({ name: '', description: '', icon: '' });
   const [newCategory, setNewCategory] = useState({ name: '', description: '', icon: '', expanded: false });
   const [draggedItem, setDraggedItem] = useState(null);
   const [showAddFaq, setShowAddFaq] = useState(false);
