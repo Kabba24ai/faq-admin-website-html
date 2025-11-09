@@ -700,7 +700,7 @@ export default function FAQAdminPanel() {
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">Category Icon</label>
-                      <p className="text-xs text-gray-500 mb-2">Upload an icon (32x32px recommended, max 1MB)</p>
+                      <p className="text-xs text-gray-500 mb-2">Upload an icon (32x32px recommended, WebP/PNG/JPG, max 1MB)</p>
                       
                       {newCategory.icon ? (
                         <div className="flex items-center space-x-3">
@@ -732,6 +732,7 @@ export default function FAQAdminPanel() {
                             />
                           </label>
                           <span className="text-xs text-gray-400">32x32px, PNG/JPG</span>
+                          <span className="text-xs text-gray-400">32x32px, WebP/PNG/JPG</span>
                         </div>
                       )}
                     </div>
@@ -788,7 +789,7 @@ export default function FAQAdminPanel() {
                           />
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">Category Icon</label>
-                            <p className="text-xs text-gray-500 mb-2">Upload an icon (32x32px recommended, max 1MB)</p>
+                            <p className="text-xs text-gray-500 mb-2">Upload an icon (32x32px recommended, WebP/PNG/JPG, max 1MB)</p>
                             
                             {editingCategory.icon ? (
                               <div className="flex items-center space-x-3">
@@ -820,6 +821,7 @@ export default function FAQAdminPanel() {
                                   />
                                 </label>
                                 <span className="text-xs text-gray-400">32x32px, PNG/JPG</span>
+                                <span className="text-xs text-gray-400">32x32px, WebP/PNG/JPG</span>
                               </div>
                             )}
                           </div>
