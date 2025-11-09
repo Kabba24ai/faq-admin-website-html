@@ -7,12 +7,18 @@ import { useAnalytics } from '../hooks/useAnalytics';
 export default function FAQPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedSearchTerm] = useDebounce(searchTerm, 300);
-  const [expandedFaq, setExpandedFaq] = useState(1);
+  const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
   const [expandedCategories, setExpandedCategories] = useState<number[]>([]);
   const [votedFaqs, setVotedFaqs] = useLocalStorage<Record<number, 'helpful' | 'not-helpful'>>('faq-votes', {});
   const [focusedIndex, setFocusedIndex] = useState(-1);
 
   const { trackFaqView, trackSearch, trackCategoryView, trackHelpfulVote } = useAnalytics();
+
+  const [settings] = useLocalStorage('faq-settings', {
+    showSearchBox: true,
+    autoExpandFirstCategory: false,
+    autoExpandAllCategories: true
+  });
 
   const [categories] = useLocalStorage('faq-categories', [
     {
@@ -85,10 +91,6 @@ export default function FAQPage() {
 
   // Initialize expanded categories based on their default expanded setting
   React.useEffect(() => {
-    // Auto-expand all categories by default
-    const allCategoryIds = categories.map(cat => cat.id);
-    setExpandedCategories(allCategoryIds);
-  }, [categories]);
 
   const filteredFaqs = faqs.filter(faq => 
     faq.isActive && (
