@@ -194,7 +194,7 @@ export default function FAQPage() {
               Frequently Asked Questions
             </h2>
             <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-              Find answers to common questions about our services, bookings, and properties.
+              Find answers to common questions about our equipment rentals, services, & requirements.
             </p>
             
             {/* Search Box */}
@@ -261,17 +261,17 @@ export default function FAQPage() {
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
-                      {category.icon ? (
-                        <div className="w-8 h-8 rounded flex items-center justify-center overflow-hidden">
+                      <div className="w-8 h-8 rounded flex items-center justify-center overflow-hidden">
+                        {category.icon ? (
                           <img 
                             src={category.icon} 
                             alt={`${category.name} icon`} 
                             className="w-full h-full object-cover"
                           />
-                        </div>
-                      ) : (
-                        <span className="text-2xl">📁</span>
-                      )}
+                        ) : (
+                          <span className="text-2xl">📁</span>
+                        )}
+                      </div>
                       <div>
                         <h3 className="text-lg font-semibold text-gray-900">{category.name}</h3>
                         <p className="text-sm text-gray-600">{category.description}</p>
