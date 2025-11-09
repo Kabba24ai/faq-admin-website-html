@@ -208,7 +208,7 @@ export default function FAQPage() {
               Frequently Asked Questions
             </h2>
             <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-              Find answers to common questions about our equipment rentals, services, & requirements.
+              Find answers to questions about our equipment rentals, services, & requirements.
             </p>
             
             {/* Search Box */}
