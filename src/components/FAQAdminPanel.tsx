@@ -478,7 +478,7 @@ export default function FAQAdminPanel() {
                       <label className="block text-sm font-medium text-gray-700 mb-1">Answer</label>
                       <RichTextEditor
                         value={newFaq.answer}
-                        onChange={(e) => setNewFaq({ ...newFaq, answer: e.target.value })}
+                       onChange={(value) => setNewFaq({ ...newFaq, answer: value })}
                         placeholder="Enter FAQ answer"
                       />
                     </div>
@@ -568,7 +568,7 @@ export default function FAQAdminPanel() {
                                     />
                                     <RichTextEditor
                                       value={editingFaq.answer}
-                                      onChange={(e) => setEditingFaq({ ...editingFaq, answer: e.target.value })}
+                                     onChange={(value) => setEditingFaq({ ...editingFaq, answer: value })}
                                     />
                                     <div className="flex items-center justify-between">
                                       <div className="flex items-center">
