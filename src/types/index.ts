@@ -5,6 +5,7 @@ export interface FAQ {
   answer: string;
   order: number;
   isActive: boolean;
+  relatedQuestions?: number[];
 }
 
 export interface Category {

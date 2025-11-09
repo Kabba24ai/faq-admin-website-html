@@ -127,6 +127,17 @@ export default function FAQPage() {
   };
 
   const getRelatedFaqs = (currentFaq: any) => {
+    // First, try to get manually selected related questions
+    if (currentFaq.relatedQuestions && currentFaq.relatedQuestions.length > 0) {
+      return faqs
+        .filter(faq => 
+          faq.isActive && 
+          currentFaq.relatedQuestions.includes(faq.id)
+        )
+        .slice(0, 3);
+    }
+    
+    // Fallback to same category questions if no manual selection
     return faqs
       .filter(faq => 
         faq.isActive && 

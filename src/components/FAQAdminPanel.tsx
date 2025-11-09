@@ -60,6 +60,7 @@ export default function FAQAdminPanel() {
   const [showAddCategory, setShowAddCategory] = useState(false);
   const [uploadingIcon, setUploadingIcon] = useState(null);
   const [bulkAction, setBulkAction] = useState('');
+  const [selectedRelatedQuestions, setSelectedRelatedQuestions] = useState<number[]>([]);
 
   const handleAddFaq = () => {
     if (newFaq.categoryId && newFaq.question.trim() && newFaq.answer.trim()) {
@@ -72,22 +73,26 @@ export default function FAQAdminPanel() {
         question: newFaq.question,
         answer: newFaq.answer,
         order: maxOrder + 1,
-        isActive: newFaq.isActive
+        isActive: newFaq.isActive,
+        relatedQuestions: selectedRelatedQuestions
       };
       
       setFaqs([...faqs, faq]);
       setNewFaq({ categoryId: '', question: '', answer: '', isActive: true });
+      setSelectedRelatedQuestions([]);
       setShowAddFaq(false);
     }
   };
 
   const handleEditFaq = (faq) => {
     setEditingFaq({ ...faq });
+    setSelectedRelatedQuestions(faq.relatedQuestions || []);
   };
 
   const handleSaveFaq = () => {
-    setFaqs(faqs.map(faq => faq.id === editingFaq.id ? editingFaq : faq));
+    setFaqs(faqs.map(faq => faq.id === editingFaq.id ? { ...editingFaq, relatedQuestions: selectedRelatedQuestions } : faq));
     setEditingFaq(null);
+    setSelectedRelatedQuestions([]);
   };
 
   const handleDeleteFaq = (id) => {
@@ -259,6 +264,18 @@ export default function FAQAdminPanel() {
     
     setSelectedFaqs([]);
     setBulkAction('');
+  };
+
+  const toggleRelatedQuestion = (questionId: number) => {
+    setSelectedRelatedQuestions(prev => 
+      prev.includes(questionId) 
+        ? prev.filter(id => id !== questionId)
+        : [...prev, questionId]
+    );
+  };
+
+  const getAvailableRelatedQuestions = (currentFaqId?: number) => {
+    return faqs.filter(faq => faq.isActive && faq.id !== currentFaqId);
   };
 
   const exportData = () => {
@@ -492,6 +509,27 @@ export default function FAQAdminPanel() {
                       />
                       <label htmlFor="isActive" className="ml-2 text-sm text-gray-700">Active</label>
                     </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Related Questions</label>
+                      <p className="text-xs text-gray-500 mb-2">Select questions that are related to this FAQ</p>
+                      <div className="max-h-32 overflow-y-auto border border-gray-300 rounded-md p-2 space-y-1">
+                        {getAvailableRelatedQuestions().length === 0 ? (
+                          <p className="text-sm text-gray-500">No other active FAQs available</p>
+                        ) : (
+                          getAvailableRelatedQuestions().map(faq => (
+                            <label key={faq.id} className="flex items-start space-x-2 text-sm">
+                              <input
+                                type="checkbox"
+                                checked={selectedRelatedQuestions.includes(faq.id)}
+                                onChange={() => toggleRelatedQuestion(faq.id)}
+                                className="mt-0.5 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                              />
+                              <span className="flex-1">{faq.question}</span>
+                            </label>
+                          ))
+                        )}
+                      </div>
+                    </div>
                   </div>
                   <div className="flex justify-end space-x-3 mt-6">
                     <button
@@ -589,12 +627,36 @@ export default function FAQAdminPanel() {
                                           Save
                                         </button>
                                         <button
-                                          onClick={() => setEditingFaq(null)}
+                                          onClick={() => {
+                                            setEditingFaq(null);
+                                            setSelectedRelatedQuestions([]);
+                                          }}
                                           className="inline-flex items-center px-3 py-1 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 transition-colors"
                                         >
                                           <X className="w-3 h-3 mr-1" />
                                           Cancel
                                         </button>
+                                      </div>
+                                    </div>
+                                    <div>
+                                      <label className="block text-sm font-medium text-gray-700 mb-2">Related Questions</label>
+                                      <p className="text-xs text-gray-500 mb-2">Select questions that are related to this FAQ</p>
+                                      <div className="max-h-32 overflow-y-auto border border-gray-300 rounded-md p-2 space-y-1">
+                                        {getAvailableRelatedQuestions(editingFaq.id).length === 0 ? (
+                                          <p className="text-sm text-gray-500">No other active FAQs available</p>
+                                        ) : (
+                                          getAvailableRelatedQuestions(editingFaq.id).map(faq => (
+                                            <label key={faq.id} className="flex items-start space-x-2 text-sm">
+                                              <input
+                                                type="checkbox"
+                                                checked={selectedRelatedQuestions.includes(faq.id)}
+                                                onChange={() => toggleRelatedQuestion(faq.id)}
+                                                className="mt-0.5 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                                              />
+                                              <span className="flex-1">{faq.question}</span>
+                                            </label>
+                                          ))
+                                        )}
                                       </div>
                                     </div>
                                   </div>
