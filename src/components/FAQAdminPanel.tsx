@@ -709,8 +709,8 @@ export default function FAQAdminPanel() {
                       <label htmlFor="expandedByDefault" className="ml-2 text-sm text-gray-700">
                         Expand category by default
                       </label>
-                      <p className="ml-2 text-xs text-gray-500">(shows questions when page loads)</p>
                     </div>
+                    <p className="text-xs text-gray-500 ml-6">(shows questions when page loads)</p>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">Category Icon</label>
                       <p className="text-xs text-gray-500 mb-2">Upload an icon (32x32px recommended, WebP/PNG/JPG, max 1MB)</p>
