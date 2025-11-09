@@ -91,6 +91,7 @@ export default function FAQPage() {
 
   // Initialize expanded categories based on their default expanded setting
   React.useEffect(() => {
+
   }, []);
 
   const filteredFaqs = faqs.filter(faq => 
@@ -224,32 +225,34 @@ export default function FAQPage() {
               Find answers to questions about our equipment rentals, services, & requirements.
             </p>
             
-            {/* Search Box */}
-            <div className="relative max-w-lg mx-auto">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Search className="h-5 w-5 text-gray-400" />
-              </div>
-              <input
-                type="text"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition-all"
-                placeholder="Search for answers..."
-                autoComplete="off"
-              />
-              {searchTerm && (
-                <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-                  <button
-                    onClick={() => setSearchTerm('')}
-                    className="text-gray-400 hover:text-gray-600 transition-colors"
-                  >
-                    ×
-                  </button>
+            {/* Search Box - only show if enabled in settings */}
+            {settings.showSearchBox && (
+              <div className="relative max-w-lg mx-auto">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Search className="h-5 w-5 text-gray-400" />
                 </div>
-              )}
-            </div>
+                <input
+                  type="text"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition-all"
+                  placeholder="Search for answers..."
+                  autoComplete="off"
+                />
+                {searchTerm && (
+                  <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                    <button
+                      onClick={() => setSearchTerm('')}
+                      className="text-gray-400 hover:text-gray-600 transition-colors"
+                    >
+                      ×
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
             
-            {searchTerm && (
+            {settings.showSearchBox && searchTerm && (
               <div className="mt-4 text-sm text-gray-600">
                 {filteredFaqs.length === 0 ? (
                   <div className="flex items-center space-x-2">
