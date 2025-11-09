@@ -55,6 +55,7 @@ export default function FAQAdminPanel() {
   const [editingCategory, setEditingCategory] = useState(null);
   const [newFaq, setNewFaq] = useState({ categoryId: '', question: '', answer: '', isActive: true });
   const [newCategory, setNewCategory] = useState({ name: '', description: '', icon: '' });
+  const [newCategory, setNewCategory] = useState({ name: '', description: '', icon: '', expanded: false });
   const [draggedItem, setDraggedItem] = useState(null);
   const [showAddFaq, setShowAddFaq] = useState(false);
   const [showAddCategory, setShowAddCategory] = useState(false);
@@ -111,11 +112,11 @@ export default function FAQAdminPanel() {
         description: newCategory.description,
         icon: newCategory.icon,
         order: maxOrder + 1,
-        expanded: true
+        expanded: newCategory.expanded || false
       };
       
       setCategories([...categories, category]);
-      setNewCategory({ name: '', description: '', icon: '' });
+      setNewCategory({ name: '', description: '', icon: '', expanded: false });
       setShowAddCategory(false);
     }
   };
@@ -698,6 +699,19 @@ export default function FAQAdminPanel() {
                         placeholder="Enter category description"
                       />
                     </div>
+                    <div className="flex items-center">
+                      <input
+                        type="checkbox"
+                        id="expandedByDefault"
+                        checked={newCategory.expanded || false}
+                        onChange={(e) => setNewCategory({ ...newCategory, expanded: e.target.checked })}
+                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                      />
+                      <label htmlFor="expandedByDefault" className="ml-2 text-sm text-gray-700">
+                        Expand category by default
+                      </label>
+                      <p className="ml-2 text-xs text-gray-500">(shows questions when page loads)</p>
+                    </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">Category Icon</label>
                       <p className="text-xs text-gray-500 mb-2">Upload an icon (32x32px recommended, WebP/PNG/JPG, max 1MB)</p>
@@ -786,6 +800,19 @@ export default function FAQAdminPanel() {
                             rows={2}
                             className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                           />
+                          <div className="flex items-center">
+                            <input
+                              type="checkbox"
+                              id="editExpandedByDefault"
+                              checked={editingCategory.expanded || false}
+                              onChange={(e) => setEditingCategory({ ...editingCategory, expanded: e.target.checked })}
+                              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                            />
+                            <label htmlFor="editExpandedByDefault" className="ml-2 text-sm text-gray-700">
+                              Expand category by default
+                            </label>
+                            <p className="ml-2 text-xs text-gray-500">(shows questions when page loads)</p>
+                          </div>
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">Category Icon</label>
                             <p className="text-xs text-gray-500 mb-2">Upload an icon (32x32px recommended, WebP/PNG/JPG, max 1MB)</p>

@@ -8,7 +8,7 @@ export default function FAQPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedSearchTerm] = useDebounce(searchTerm, 300);
   const [expandedFaq, setExpandedFaq] = useState(1);
-  const [expandedCategory, setExpandedCategory] = useState(1);
+  const [expandedCategories, setExpandedCategories] = useState<number[]>([]);
   const [votedFaqs, setVotedFaqs] = useLocalStorage<Record<number, 'helpful' | 'not-helpful'>>('faq-votes', {});
   const [focusedIndex, setFocusedIndex] = useState(-1);
 
@@ -20,14 +20,16 @@ export default function FAQPage() {
       name: 'Booking & Reservations',
       description: 'Everything you need to know about making and managing your reservations',
       order: 0,
-      icon: '🏠'
+      icon: '🏠',
+      expanded: true
     },
     {
       id: 2,
       name: 'Property Information',
       description: 'Details about our properties and amenities',
       order: 1,
-      icon: '🏢'
+      icon: '🏢',
+      expanded: false
     }
   ]);
 
@@ -81,6 +83,14 @@ export default function FAQPage() {
     }
   }, [debouncedSearchTerm, trackSearch]);
 
+  // Initialize expanded categories based on their default expanded setting
+  React.useEffect(() => {
+    const defaultExpanded = categories
+      .filter(cat => cat.expanded)
+      .map(cat => cat.id);
+    setExpandedCategories(defaultExpanded);
+  }, [categories]);
+
   const filteredFaqs = faqs.filter(faq => 
     faq.isActive && (
       faq.question.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
@@ -103,7 +113,11 @@ export default function FAQPage() {
 
   const toggleCategory = (categoryId) => {
     trackCategoryView(categoryId);
-    setExpandedCategory(expandedCategory === categoryId ? null : categoryId);
+    setExpandedCategories(prev => 
+      prev.includes(categoryId) 
+        ? prev.filter(id => id !== categoryId)
+        : [...prev, categoryId]
+    );
   };
 
   const handleVote = (faqId: number, isHelpful: boolean) => {
@@ -281,7 +295,7 @@ export default function FAQPage() {
                       <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                         {categoryFaqs.length} question{categoryFaqs.length === 1 ? '' : 's'}
                       </span>
-                      {expandedCategory === category.id ? (
+                      {expandedCategories.includes(category.id) ? (
                         <ChevronUp className="w-5 h-5 text-gray-400" />
                       ) : (
                         <ChevronDown className="w-5 h-5 text-gray-400" />
@@ -290,7 +304,7 @@ export default function FAQPage() {
                   </div>
                 </div>
 
-                {(expandedCategory === category.id || debouncedSearchTerm) && (
+                {(expandedCategories.includes(category.id) || debouncedSearchTerm) && (
                   <div className="border-t border-gray-200">
                     {categoryFaqs.length === 0 ? (
                       <div className="px-6 py-8 text-center text-gray-500">
