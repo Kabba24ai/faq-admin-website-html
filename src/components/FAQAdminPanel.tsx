@@ -310,14 +310,14 @@ export default function FAQAdminPanel() {
               <h1 className="text-3xl font-bold text-gray-900">FAQ Admin Panel</h1>
               <p className="mt-1 text-sm text-gray-500">Manage your frequently asked questions and categories</p>
             </div>
-            <a
-              href="/faq"
-              className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors"
-            >
-              <Eye className="w-4 h-4 mr-2" />
-              Preview Site
-            </a>
             <div className="flex space-x-2">
+              <a
+                href="/faq"
+                className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors"
+              >
+                <Eye className="w-4 h-4 mr-2" />
+                Preview Site
+              </a>
               <button
                 onClick={exportData}
                 className="inline-flex items-center px-3 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors"
@@ -731,7 +731,6 @@ export default function FAQAdminPanel() {
                               className="hidden"
                             />
                           </label>
-                          <span className="text-xs text-gray-400">32x32px, PNG/JPG</span>
                           <span className="text-xs text-gray-400">32x32px, WebP/PNG/JPG</span>
                         </div>
                       )}
@@ -819,6 +818,7 @@ export default function FAQAdminPanel() {
                                     onChange={(e) => handleIconUpload(e, true)}
                                     className="hidden"
                                   />
+                                </label>
                                 <span className="text-xs text-gray-400">32x32px, WebP/PNG/JPG</span>
                               </div>
                             )}
@@ -858,7 +858,7 @@ export default function FAQAdminPanel() {
                               <p className="text-sm text-gray-600 mt-1">{category.description}</p>
                               <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 mt-2">
                                 {getCategoryFaqs(category.id).length} FAQs
-                              <span className="text-xs text-gray-400">32x32px, WebP/PNG/JPG</span>
+                              </span>
                             </div>
                           </div>
                           <div className="flex items-center space-x-2">
