@@ -85,10 +85,9 @@ export default function FAQPage() {
 
   // Initialize expanded categories based on their default expanded setting
   React.useEffect(() => {
-    const defaultExpanded = categories
-      .filter(cat => cat.expanded)
-      .map(cat => cat.id);
-    setExpandedCategories(defaultExpanded);
+    // Auto-expand all categories by default
+    const allCategoryIds = categories.map(cat => cat.id);
+    setExpandedCategories(allCategoryIds);
   }, [categories]);
 
   const filteredFaqs = faqs.filter(faq => 
