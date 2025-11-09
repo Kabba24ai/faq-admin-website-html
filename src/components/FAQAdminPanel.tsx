@@ -54,10 +54,11 @@ export default function FAQAdminPanel() {
   const [editingFaq, setEditingFaq] = useState(null);
   const [editingCategory, setEditingCategory] = useState(null);
   const [newFaq, setNewFaq] = useState({ categoryId: '', question: '', answer: '', isActive: true });
-  const [newCategory, setNewCategory] = useState({ name: '', description: '' });
+  const [newCategory, setNewCategory] = useState({ name: '', description: '', icon: '' });
   const [draggedItem, setDraggedItem] = useState(null);
   const [showAddFaq, setShowAddFaq] = useState(false);
   const [showAddCategory, setShowAddCategory] = useState(false);
+  const [uploadingIcon, setUploadingIcon] = useState(null);
   const [bulkAction, setBulkAction] = useState('');
 
   const handleAddFaq = () => {
@@ -108,12 +109,13 @@ export default function FAQAdminPanel() {
         id: Date.now(),
         name: newCategory.name,
         description: newCategory.description,
+        icon: newCategory.icon,
         order: maxOrder + 1,
         expanded: true
       };
       
       setCategories([...categories, category]);
-      setNewCategory({ name: '', description: '' });
+      setNewCategory({ name: '', description: '', icon: '' });
       setShowAddCategory(false);
     }
   };
@@ -182,6 +184,43 @@ export default function FAQAdminPanel() {
     }
 
     setDraggedItem(null);
+  };
+
+  const handleIconUpload = (event, isEditing = false) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      alert('Please select an image file');
+      return;
+    }
+
+    // Validate file size (max 1MB)
+    if (file.size > 1024 * 1024) {
+      alert('Image must be smaller than 1MB');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const result = e.target?.result as string;
+      if (isEditing && editingCategory) {
+        setEditingCategory({ ...editingCategory, icon: result });
+      } else {
+        setNewCategory({ ...newCategory, icon: result });
+      }
+      setUploadingIcon(null);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const removeIcon = (isEditing = false) => {
+    if (isEditing && editingCategory) {
+      setEditingCategory({ ...editingCategory, icon: '' });
+    } else {
+      setNewCategory({ ...newCategory, icon: '' });
+    }
   };
 
   const toggleFaqSelection = (faqId: number) => {
@@ -659,6 +698,43 @@ export default function FAQAdminPanel() {
                         placeholder="Enter category description"
                       />
                     </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Category Icon</label>
+                      <p className="text-xs text-gray-500 mb-2">Upload an icon (32x32px recommended, max 1MB)</p>
+                      
+                      {newCategory.icon ? (
+                        <div className="flex items-center space-x-3">
+                          <div className="w-8 h-8 rounded border border-gray-300 flex items-center justify-center overflow-hidden">
+                            <img 
+                              src={newCategory.icon} 
+                              alt="Category icon" 
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => removeIcon(false)}
+                            className="text-sm text-red-600 hover:text-red-800"
+                          >
+                            Remove Icon
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="flex items-center space-x-3">
+                          <label className="cursor-pointer inline-flex items-center px-3 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                            <Upload className="w-4 h-4 mr-2" />
+                            Choose Icon
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={(e) => handleIconUpload(e, false)}
+                              className="hidden"
+                            />
+                          </label>
+                          <span className="text-xs text-gray-400">32x32px, PNG/JPG</span>
+                        </div>
+                      )}
+                    </div>
                   </div>
                   <div className="flex justify-end space-x-3 mt-6">
                     <button
@@ -710,6 +786,43 @@ export default function FAQAdminPanel() {
                             rows={2}
                             className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                           />
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Category Icon</label>
+                            <p className="text-xs text-gray-500 mb-2">Upload an icon (32x32px recommended, max 1MB)</p>
+                            
+                            {editingCategory.icon ? (
+                              <div className="flex items-center space-x-3">
+                                <div className="w-8 h-8 rounded border border-gray-300 flex items-center justify-center overflow-hidden">
+                                  <img 
+                                    src={editingCategory.icon} 
+                                    alt="Category icon" 
+                                    className="w-full h-full object-cover"
+                                  />
+                                </div>
+                                <button
+                                  type="button"
+                                  onClick={() => removeIcon(true)}
+                                  className="text-sm text-red-600 hover:text-red-800"
+                                >
+                                  Remove Icon
+                                </button>
+                              </div>
+                            ) : (
+                              <div className="flex items-center space-x-3">
+                                <label className="cursor-pointer inline-flex items-center px-3 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                                  <Upload className="w-4 h-4 mr-2" />
+                                  Choose Icon
+                                  <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={(e) => handleIconUpload(e, true)}
+                                    className="hidden"
+                                  />
+                                </label>
+                                <span className="text-xs text-gray-400">32x32px, PNG/JPG</span>
+                              </div>
+                            )}
+                          </div>
                           <div className="flex justify-end space-x-2">
                             <button
                               onClick={handleSaveCategory}
@@ -731,6 +844,15 @@ export default function FAQAdminPanel() {
                         <div className="flex items-start justify-between">
                           <div className="flex items-start">
                             <GripVertical className="w-4 h-4 text-gray-400 mr-3 mt-1" />
+                            {category.icon && (
+                              <div className="w-6 h-6 rounded mr-3 mt-0.5 flex items-center justify-center overflow-hidden">
+                                <img 
+                                  src={category.icon} 
+                                  alt={`${category.name} icon`} 
+                                  className="w-full h-full object-cover"
+                                />
+                              </div>
+                            )}
                             <div>
                               <h4 className="font-medium text-gray-900">{category.name}</h4>
                               <p className="text-sm text-gray-600 mt-1">{category.description}</p>

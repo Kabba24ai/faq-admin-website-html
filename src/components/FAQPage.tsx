@@ -261,7 +261,17 @@ export default function FAQPage() {
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
-                      <span className="text-2xl">{category.icon}</span>
+                      {category.icon ? (
+                        <div className="w-8 h-8 rounded flex items-center justify-center overflow-hidden">
+                          <img 
+                            src={category.icon} 
+                            alt={`${category.name} icon`} 
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      ) : (
+                        <span className="text-2xl">📁</span>
+                      )}
                       <div>
                         <h3 className="text-lg font-semibold text-gray-900">{category.name}</h3>
                         <p className="text-sm text-gray-600">{category.description}</p>

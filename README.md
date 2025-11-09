@@ -76,6 +76,7 @@ src/
 ### Admin Panel (`/admin`)
 1. **Manage FAQs**: Add, edit, delete, and reorder questions
 2. **Organize Categories**: Create and manage FAQ categories
+3. **Upload Icons**: Add custom icons for categories (32x32px recommended)
 3. **Bulk Actions**: Select multiple items for batch operations
 4. **View Analytics**: Monitor usage patterns and user feedback
 5. **Import/Export**: Backup and restore FAQ data
