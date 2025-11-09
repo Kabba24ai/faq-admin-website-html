@@ -61,6 +61,7 @@ export default function FAQAdminPanel() {
   const [uploadingIcon, setUploadingIcon] = useState(null);
   const [bulkAction, setBulkAction] = useState('');
   const [selectedRelatedQuestions, setSelectedRelatedQuestions] = useState<number[]>([]);
+  const [relatedQuestionsFilter, setRelatedQuestionsFilter] = useState('');
 
   const handleAddFaq = () => {
     if (newFaq.categoryId && newFaq.question.trim() && newFaq.answer.trim()) {
@@ -87,6 +88,7 @@ export default function FAQAdminPanel() {
   const handleEditFaq = (faq) => {
     setEditingFaq({ ...faq });
     setSelectedRelatedQuestions(faq.relatedQuestions || []);
+    setRelatedQuestionsFilter('');
   };
 
   const handleSaveFaq = () => {
@@ -275,7 +277,15 @@ export default function FAQAdminPanel() {
   };
 
   const getAvailableRelatedQuestions = (currentFaqId?: number) => {
-    return faqs.filter(faq => faq.isActive && faq.id !== currentFaqId);
+    let availableFaqs = faqs.filter(faq => faq.isActive && faq.id !== currentFaqId);
+    
+    // Filter by category if selected
+    if (relatedQuestionsFilter) {
+      availableFaqs = availableFaqs.filter(faq => faq.categoryId === parseInt(relatedQuestionsFilter));
+    }
+    
+    // Sort alphabetically by question
+    return availableFaqs.sort((a, b) => a.question.localeCompare(b.question));
   };
 
   const exportData = () => {
@@ -512,6 +522,18 @@ export default function FAQAdminPanel() {
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Related Questions</label>
                       <p className="text-xs text-gray-500 mb-2">Select questions that are related to this FAQ</p>
+                      <div className="mb-3">
+                        <select
+                          value={relatedQuestionsFilter}
+                          onChange={(e) => setRelatedQuestionsFilter(e.target.value)}
+                          className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                          <option value="">All Categories</option>
+                          {categories.map(cat => (
+                            <option key={cat.id} value={cat.id}>{cat.name}</option>
+                          ))}
+                        </select>
+                      </div>
                       <div className="max-h-32 overflow-y-auto border border-gray-300 rounded-md p-2 space-y-1">
                         {getAvailableRelatedQuestions().length === 0 ? (
                           <p className="text-sm text-gray-500">No other active FAQs available</p>
@@ -641,6 +663,18 @@ export default function FAQAdminPanel() {
                                     <div>
                                       <label className="block text-sm font-medium text-gray-700 mb-2">Related Questions</label>
                                       <p className="text-xs text-gray-500 mb-2">Select questions that are related to this FAQ</p>
+                                      <div className="mb-3">
+                                        <select
+                                          value={relatedQuestionsFilter}
+                                          onChange={(e) => setRelatedQuestionsFilter(e.target.value)}
+                                          className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        >
+                                          <option value="">All Categories</option>
+                                          {categories.map(cat => (
+                                            <option key={cat.id} value={cat.id}>{cat.name}</option>
+                                          ))}
+                                        </select>
+                                      </div>
                                       <div className="max-h-32 overflow-y-auto border border-gray-300 rounded-md p-2 space-y-1">
                                         {getAvailableRelatedQuestions(editingFaq.id).length === 0 ? (
                                           <p className="text-sm text-gray-500">No other active FAQs available</p>
