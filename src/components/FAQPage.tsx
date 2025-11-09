@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, ChevronDown, ChevronUp, HelpCircle, Mail, ArrowLeft, ThumbsUp, ThumbsDown, ExternalLink, Lightbulb } from 'lucide-react';
+import { Search, ChevronDown, ChevronUp, HelpCircle, Mail, ArrowLeft, ThumbsUp, ThumbsDown, ExternalLink, Lightbulb, MessageCircle } from 'lucide-react';
 import { useDebounce } from 'use-debounce';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { useAnalytics } from '../hooks/useAnalytics';
@@ -222,7 +222,7 @@ export default function FAQPage() {
               Frequently Asked Questions
             </h2>
             <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-              Find answers to questions about our equipment rentals, services, & requirements.
+              Find answers to questions about our equipment rentals & services.
             </p>
             
             {/* Search Box - only show if enabled in settings */}
@@ -474,11 +474,11 @@ export default function FAQPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href="mailto:support@example.com"
+              href="sms:+11234567890"
               className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-blue-600 bg-white hover:bg-blue-50 transition-colors"
             >
-              <Mail className="w-5 h-5 mr-2" />
-              Email Support
+              <MessageCircle className="w-5 h-5 mr-2" />
+              Click to Text Us
             </a>
             <a
               href="tel:+11234567890"
