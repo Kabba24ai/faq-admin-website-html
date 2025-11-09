@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, Edit2, Trash2, GripVertical, Save, X, Eye, Settings, ChevronDown, ChevronRight, Download, Upload, BarChart3, CheckSquare, Square } from 'lucide-react';
+import { Plus, CreditCard as Edit2, Trash2, GripVertical, Save, X, Eye, Settings, ChevronDown, ChevronRight, Download, Upload, BarChart3, CheckSquare, Square } from 'lucide-react';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import RichTextEditor from './RichTextEditor';
 import AnalyticsDashboard from './AnalyticsDashboard';
