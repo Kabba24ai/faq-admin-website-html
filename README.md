@@ -81,6 +81,12 @@ src/
 4. **View Analytics**: Monitor usage patterns and user feedback
 5. **Import/Export**: Backup and restore FAQ data
 
+### **Icon Management**
+- **File Upload**: Click "Choose Icon" button to select image files
+- **File Validation**: Only accepts image files (WebP, PNG, JPG, etc.)
+- **Size Limit**: Maximum 1MB file size with clear error messages
+- **Recommended Format**: WebP for optimal file size and quality
+
 ### Customer Portal (`/faq`)
 1. **Browse FAQs**: Navigate through categorized questions
 2. **Search**: Use the search bar to find specific information
