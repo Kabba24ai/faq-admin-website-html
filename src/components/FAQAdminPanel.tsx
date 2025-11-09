@@ -557,6 +557,10 @@ export default function FAQAdminPanel() {
                     <button
                       onClick={() => setShowAddFaq(false)}
                       className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+                      onClick={() => {
+                        setShowAddFaq(false);
+                        setRelatedQuestionsFilter('');
+                      }}
                     >
                       Cancel
                     </button>
